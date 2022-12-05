@@ -1,10 +1,18 @@
+import FoodCard from "../components/Card/Food";
+import Layout from "../components/Layout";
+
+import { dummyData } from "../constants/foodDummyData";
+
 const Home = () => {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
-  )
-}
+    <Layout>
+      <div className="flex justify-center flex-wrap gap-6 px-4">
+        {dummyData.map((data, index) => (
+          <FoodCard key={index} {...data} />
+        ))}
+      </div>
+    </Layout>
+  );
+};
 
-
-export default Home
+export default Home;
