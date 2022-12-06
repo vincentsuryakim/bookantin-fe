@@ -18,6 +18,11 @@ const Navbar = () => (
             Register
           </button>
         </Link>
+        <Link href="/PaymentPage">
+          <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            payment
+          </button>
+        </Link>
       </div>
     </div>
   </nav>
