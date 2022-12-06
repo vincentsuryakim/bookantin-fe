@@ -1,1 +1,1 @@
-export const API_URL = "https://web-production-04bc.up.railway.app";
+export const API_URL = "http://127.0.0.1:8000/";
