@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 import Layout from "../components/Layout";
 import { API_URL } from "../constants/api";
@@ -8,6 +10,7 @@ import { API_URL } from "../constants/api";
 const Register = () => {
   const [type, setType] = useState(null);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -22,15 +25,24 @@ const Register = () => {
 
     setLoading(true);
 
-    // axios
-    //   .post(`${API_URL}/api/register`, data)
-    //   .then(() => {
-    //     router.push("/login");
-    //   })
-    //   .catch((err) => console.error(err))
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
+    axios
+      .post(`${API_URL}/api/register`, data)
+      .then(() => {
+        toast.success("Registration successful", {
+          duration: 4000,
+          position: "top-center",
+        });
+        router.push("/login");
+      })
+      .catch((err) =>
+        toast.error(err, {
+          duration: 4000,
+          position: "top-center",
+        })
+      )
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const handleChooseType = (type) => {
@@ -151,10 +163,13 @@ const Register = () => {
               )}
             </div>
             <button
-              className="bg-green-500 hover:bg-green-700 font-semibold text-white max-w-full w-[400px] h-[50px] rounded-md"
+              className={`bg-green-500 ${
+                !loading && "hover:bg-green-700"
+              } font-semibold text-white max-w-full w-[400px] h-[50px] rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
               type="submit"
+              disabled={loading}
             >
-              Register
+              {loading ? "Loading..." : "Register"}
             </button>
           </form>
         )}
