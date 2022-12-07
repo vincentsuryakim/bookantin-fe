@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { dummyData } from "../../constants/foodDummyData";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../contexts/AuthContext";
-import { useParams } from "react-router-dom";
+import { Router, Route, useParams, useSearchParams} from "react-router-dom";
 import toast from "react-hot-toast";
 
 const Menu = () => {
@@ -15,13 +15,15 @@ const Menu = () => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const router = useRouter();
-  let {id} = useParams();
 
   useEffect(() => {
+    if (!router.isReady) return;
     getMenu();
-  }, []);
+  }, [router.isReady]);
 
   const getMenu = () => {
+    //get id from url param
+    const id = window.location.pathname.split("/")[2];
     const token = localStorage.getItem("token");
     axios
       .get(`${API_URL}/api/menu/${id}`, {
@@ -41,6 +43,7 @@ const Menu = () => {
   };  
 
   const editMenu = () => {
+    const id = window.location.pathname.split("/")[2];
     const token = localStorage.getItem("token");
     axios.put(`${API_URL}/api/menu/${id}`, {
       headers: {
@@ -59,6 +62,7 @@ const Menu = () => {
   };
 
   const deleteMenu = () => {
+    const id = window.location.pathname.split("/")[2];
     const token = localStorage.getItem("token");
     axios.delete(`${API_URL}/api/menu/${id}`, {
       headers: {
