@@ -71,7 +71,7 @@ const Login = () => {
             Login to BooKantin
           </p>
           <div className="flex flex-col max-w-full w-[400px]">
-            <label for="username" className="mb-1">
+            <label htmlFor="username" className="mb-1">
               Username <span className="text-red-600">*</span>
             </label>
             <input
@@ -86,7 +86,7 @@ const Login = () => {
             )}
           </div>
           <div className="flex flex-col max-w-full w-[400px]">
-            <label for="password" className="mb-1">
+            <label htmlFor="password" className="mb-1">
               Password <span className="text-red-600">*</span>
             </label>
             <input

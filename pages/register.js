@@ -70,6 +70,12 @@ const Register = () => {
             >
               Seller
             </button>
+            <button
+              className="bg-[#e8e8e8] hover:bg-[#e0e0e0] font-semibold text-black max-w-full w-[400px] h-[50px] rounded-md"
+              onClick={() => handleChooseType("ADMIN")}
+            >
+              Admin
+            </button>
           </div>
         )}
         {page === 2 && (
@@ -81,7 +87,7 @@ const Register = () => {
               Register as {type.charAt(0) + type.slice(1).toLowerCase()}
             </p>
             <div className="flex flex-col max-w-full w-[400px]">
-              <label for="first_name" className="mb-1">
+              <label htmlFor="first_name" className="mb-1">
                 First Name <span className="text-red-600">*</span>
               </label>
               <input
@@ -97,7 +103,7 @@ const Register = () => {
               )}
             </div>
             <div className="flex flex-col max-w-full w-[400px]">
-              <label for="last_name" className="mb-1">
+              <label htmlFor="last_name" className="mb-1">
                 Last Name <span className="text-red-600">*</span>
               </label>
               <input
@@ -113,7 +119,7 @@ const Register = () => {
               )}
             </div>
             <div className="flex flex-col max-w-full w-[400px]">
-              <label for="username" className="mb-1">
+              <label htmlFor="username" className="mb-1">
                 Username <span className="text-red-600">*</span>
               </label>
               <input
@@ -129,7 +135,7 @@ const Register = () => {
               )}
             </div>
             <div className="flex flex-col max-w-full w-[400px]">
-              <label for="email" className="mb-1">
+              <label htmlFor="email" className="mb-1">
                 Email <span className="text-red-600">*</span>
               </label>
               <input
@@ -146,7 +152,7 @@ const Register = () => {
               )}
             </div>
             <div className="flex flex-col max-w-full w-[400px]">
-              <label for="password" className="mb-1">
+              <label htmlFor="password" className="mb-1">
                 Password <span className="text-red-600">*</span>
               </label>
               <input

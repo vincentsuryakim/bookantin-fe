@@ -34,7 +34,7 @@ const Navbar = () => {
           position: "top-center",
         });
 
-        window.location.reload();
+        window.location.replace("/");
       })
       .catch((err) => {
         toast.error("Logout failed. Please try again.", {
@@ -57,8 +57,12 @@ const Navbar = () => {
           <p>Loading...</p>
         ) : !!Object.keys(user ?? {}).length ? (
           <div className="flex gap-x-4 items-center">
+            <Link href="/dashboard">
+              <button className="block py-2 pl-3 pr-4 md:hover:text-blue-700 md:p-0">
+                Dashboard Admin
+              </button>
+            </Link>
             <p>Hello, {user?.first_name}!</p>
-
             <button
               className={`bg-red-500 ${
                 !logoutLoading && "hover:bg-red-700"
