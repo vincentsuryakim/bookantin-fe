@@ -2,20 +2,17 @@ import Layout from "../components/Layout";
 import FoodCard from "../components/Card/Food";
 import { useState,useEffect } from "react";
 import axios from "axios"
-import redirect from 'nextjs-redirect'
 import { API_URL } from "../constants/api";
 import Popup from 'reactjs-popup';
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useRouter } from "next/router";
+
 const GetCart = () => {
-    const url = `${API_URL}/api/cart-content/`
-	const router = useRouter();
-    const urlPayment = "https://master--courageous-basbousa-3ef9e8.netlify.app/.netlify/functions/token"
-	const [list, setList] = useState([])
-    const [totalHarga,setTotalHarga] = useState(null)
-    const [payment,setPayment] = useState(null)
-	const [loading, setLoading] = useState(false);
+    const url = `${API_URL}/api/menu/`
+    const urlCart = `${API_URL}/api/cart/add`
+	const [list, setList] = useState([]) 
+    const [loading, setLoading] = useState(false);
+    
     const {
         register,
         handleSubmit,
@@ -23,76 +20,103 @@ const GetCart = () => {
       } = useForm();
 
 	useEffect(() => {
-		var cartId = localStorage.getItem("cartId")
-		const token = localStorage.getItem("token");
-		if(cartId != null){
-			axios.get(url+cartId+"/get_by_CartId",{
-				headers: {
-				  Authorization: `Token ${token}`,
-				}})
-			.then(res => {
-				console.log(res.data)
-				var temp = 0
-				res.data.map((item)=>{
-					temp = temp + item.menu.price * item.quantity
-				})
-				console.log(temp)
-				setTotalHarga(temp)
-				setList(res.data)
-				})  
-				
-		}
+        const token = localStorage.getItem("token");
+        var cartId = localStorage.getItem("cartId")
+        if(cartId == null){
+            axios.get(urlCart,
+                {
+                headers: {
+                  Authorization: `Token ${token}`,
+                },
+              })
+            .then((res)=>{
+                localStorage.setItem("cartId",res.data.id)
+                console.log(cartId)})
+        }
+		axios.get(url,
+            {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          })
+		.then(res => {
+			console.log(res.data)
+			setList(res.data)
+            })  
+		
 	}, []);
     
-    const redirect2 = async () => {
-		await axios.get(urlPayment+'?totalHarga='+totalHarga).then((res2) => {
-			console.log(res2.data.url)
-        router.push(res2.data.url)})
-    }
-	const onSubmit = async (data) => {
+    const onSubmit = async (data) => {
         setLoading(true);
         const token = localStorage.getItem("token");
         data.cart = localStorage.getItem("cartId")
         console.log(data.cart)
         console.log(data.quantity)
         console.log(data.menu)
-		data.cartId = data.cart
-		data.menuId = data.menu
-		await axios.post(`${API_URL}/api/cart-content/delete_by_CartId_MenuId/`,data,{
+        data.cartId = data.cart
+        data.menuId = data.menu
+        var cek
+        await axios.post(`${API_URL}/api/cart-content/get_by_MenuId_CartId/`,data,{
             headers: {
               Authorization: `Token ${token}`,
-            }})
-		if(data.quantity > 0){
-		await axios
-          .post(`${API_URL}/api/cart-content/`,data,{
-            headers: {
-              Authorization: `Token ${token}`,
-            }})
-          .then(() => {
-            toast.success("Add successful", {
-              duration: 4000,
-              position: "top-center",
+            }}).then((data)=>{
+                cek = true
+            } ).catch((e)=>{
+                cek = false
             })
-          })
-          .catch((err) =>
-            toast.error(err, {
-              duration: 4000,
-              position: "top-center",
+        if(!cek){
+            axios
+            .post(`${API_URL}/api/cart-content/`,data,{
+                headers: {
+                Authorization: `Token ${token}`,
+                }})
+            .then(() => {
+                toast.success("Add successful", {
+                duration: 4000,
+                position: "top-center",
+                })
             })
-          )
-		}
-		location.reload()
+            .catch((err) =>
+                toast.error(err, {
+                duration: 4000,
+                position: "top-center",
+                })
+            )
+            .finally(() => {
+                setLoading(false);
+            });
+        }
+        else{
+            axios.post(`${API_URL}/api/cart-content/add_quantity_by_cartId_menuId`,data,{
+                headers: {
+                Authorization: `Token ${token}`,
+                }})
+                .then(() => {
+                    toast.success("Add successful", {
+                    duration: 4000,
+                    position: "top-center",
+                    })
+                })
+                .catch((err) =>
+                    toast.error(err, {
+                    duration: 4000,
+                    position: "top-center",
+                    })
+                )
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
       };
-
+	
 	const cards = list.map((item,idx) => {
 		return(
             <div>
 				<FoodCard key = {idx}
-					name={item.menu.name}
-					price={item.menu.price}
+					name={item.name}
+					price={item.price}
 				/>
-                <p> {item.quantity}</p>
-				<Popup trigger = {<button>Edit</button>}
+                <Popup trigger = {<button>Pesan</button>}
                  position = "right center"
                  contentStyle={{background:'white' ,margin:'auto',padding: '5 px'}} 
                  overlayStyle={{background : 'white'}}
@@ -102,10 +126,10 @@ const GetCart = () => {
             className="flex flex-col items-center gap-y-4 w-full px-4"
           >
             <p className="font-semibold text-2xl text-center mb-4">
-              Menu : {item.menu.name}
+              Menu : {item.name}
             </p>
             <p className="font-semibold text-2xl text-center mb-4">
-              Harga : {item.menu.price}
+              Harga : {item.price}
             </p>
             <div className="flex flex-col max-w-full w-[400px]">
               <label for="quantity" className="mb-1">
@@ -125,7 +149,7 @@ const GetCart = () => {
             </div>
             <div className="flex flex-col max-w-full w-[400px]">
               <input type = 'hidden'
-                id="menu" value = {item.menu.id} 
+                id="menu" value = {item.id} 
                 className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
                 placeholder="Menu"
                 {...register("menu", { required: true })}
@@ -143,7 +167,7 @@ const GetCart = () => {
               type="submit"
               disabled={loading}
             >
-              {loading ? "Loading..." : "edit"}
+              {loading ? "Loading..." : "Add"}
             </button>
           </form>
           </Popup>
@@ -154,11 +178,9 @@ const GetCart = () => {
 	return(		
 		<div style={{ margin: '1rem'}}>
 			<p>List Makanan</p>
-			<button onClick={()=>redirect2()}>pay</button>
 			<div className="flex justify-center flex-wrap gap-6 px-4">
 				{cards}
 			</div>
-			
 		</div>
 	)
 }
