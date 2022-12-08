@@ -78,6 +78,11 @@ const Navbar = () => {
               order
               </button>
             </Link>
+            <Link href="/tunai">
+              <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+              tesqr
+              </button>
+            </Link>
           </div>
         ) : (
           <div className="flex gap-x-4">
