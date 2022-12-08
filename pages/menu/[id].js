@@ -93,12 +93,15 @@ const Menu = () => {
     setPage(2);
   };
 
+
   return (
     <Layout>
+      {authLoading ? (
+        <p>Loading...</p>
+      ) : !!Object.keys(data).length ? (
       <div className="flex justify-center w-full">
         {page === 1 && (
           <div className="flex flex-col items-center gap-y-4">
-            {console.log(data.seller)}
             <h1 className="font-semibold text-4xl text-center">{data.name}</h1>
             <p className="font-semibold text-1xl text-center">
               {" "}
@@ -109,10 +112,10 @@ const Menu = () => {
               Tipe Menu: {data.type}
             </p>
             <p className="font-semibold text-2xl text-center">
+              Dijual Oleh: 
               {" "}
-              Dijual Oleh:
-              {/* {data.seller.user.first_name}
-              {data.seller.user.last_name} */}
+              {data.seller.user.first_name} {" "}
+              {data.seller.user.last_name} 
             </p>
             <button
               className="bg-[#e8e8e8] hover:bg-[#e0e0e0] font-semibold text-black max-w-full w-[400px] h-[50px] rounded-md"
@@ -177,14 +180,14 @@ const Menu = () => {
             </div>
             <div>
               <button
-                className="bg-[#e8e8e8] hover:bg-[#e0e0e0] font-semibold text-black max-w-full w-[400px] h-[50px] rounded-md"
+                className="bg-[#e8e8e8] hover:bg-[#e0e0e0] font-semibold text-black max-w-md w-[400px] h-[50px] rounded-md"
                 onClick={() => setType("FOOD")}
               >
                 {" "}
                 FOOD{" "}
               </button>
               <button
-                className="bg-[#e8e8e8] hover:bg-[#e0e0e0] font-semibold text-black max-w-full w-[400px] h-[50px] rounded-md"
+                className="bg-[#e8e8e8] hover:bg-[#e0e0e0] font-semibold text-black max-w-md w-[400px] h-[50px] rounded-md"
                 onClick={() => setType("DRINK")}
               >
                 {" "}
@@ -201,6 +204,9 @@ const Menu = () => {
           </form>
         )}
       </div>
+      ) : (
+        <p>Not Authorized</p>
+      )}
     </Layout>
   );
 };
