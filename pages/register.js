@@ -35,7 +35,7 @@ const Register = () => {
         router.push("/login");
       })
       .catch((err) =>
-        toast.error(err, {
+        toast.error(String(err), {
           duration: 4000,
           position: "top-center",
         })
@@ -69,12 +69,6 @@ const Register = () => {
               onClick={() => handleChooseType("SELLER")}
             >
               Seller
-            </button>
-            <button
-              className="bg-[#e8e8e8] hover:bg-[#e0e0e0] font-semibold text-black max-w-full w-[400px] h-[50px] rounded-md"
-              onClick={() => handleChooseType("ADMIN")}
-            >
-              Admin
             </button>
           </div>
         )}
