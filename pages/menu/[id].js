@@ -3,7 +3,7 @@ import Layout from "../../components/Layout";
 import axios from "axios";
 import { API_URL } from "../../constants/api";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { dummyData } from "../../constants/foodDummyData";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../contexts/AuthContext";
@@ -53,11 +53,11 @@ const Menu = () => {
     const id = window.location.pathname.split("/")[2];
     const token = localStorage.getItem("token");
     axios
-      .put(`${API_URL}/api/menu/${id}/`, {
+      .put(`${API_URL}/api/menu/${id}`, data, {
         headers: {
           Authorization: `Token ${token}`,
-        },
-      })
+          },
+        })
       .then((res) => {
         setData(res.data);
       })
@@ -87,6 +87,11 @@ const Menu = () => {
           position: "top-center",
         });
       });
+  };
+
+  const deleteClick = () => {
+    deleteMenu();
+    router.push("/menu");
   };
 
   const gantiPage = () => {
@@ -126,7 +131,7 @@ const Menu = () => {
             </button>
             <button
               className="bg-[#FF0000] hover:bg-[#800000] font-semibold text-white max-w-full w-[400px] h-[50px] rounded-md"
-              onClick={() => deleteMenu()}
+              onClick={() => deleteClick()}
             >
               {" "}
               Delete{" "}
@@ -175,24 +180,19 @@ const Menu = () => {
             </div>
             <div className="flex flex-col max-w-full w-[400px]">
               <label for="type" className="mb-1">
-                Tipe Makanan <span className="text-red-600">*</span>
+                Tipe <span className="text-red-600">*</span>
               </label>
-            </div>
-            <div>
-              <button
-                className="bg-[#e8e8e8] hover:bg-[#e0e0e0] font-semibold text-black max-w-md w-[400px] h-[50px] rounded-md"
-                onClick={() => setType("FOOD")}
-              >
-                {" "}
-                FOOD{" "}
-              </button>
-              <button
-                className="bg-[#e8e8e8] hover:bg-[#e0e0e0] font-semibold text-black max-w-md w-[400px] h-[50px] rounded-md"
-                onClick={() => setType("DRINK")}
-              >
-                {" "}
-                DRINK{" "}
-              </button>
+              <input
+                id="price"
+                className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
+                placeholder="Isi dengan FOOD/DRINK"
+                {...register("type", { required: true })}
+              />
+              {errors.last_name && (
+                <span className="font-semibold text-red-500 text-sm">
+                  This field is required
+                </span>
+              )}
             </div>
             <button
               className="bg-[#e8e8e8] hover:bg-[#e0e0e0] font-semibold text-black max-w-full w-[400px] h-[50px] rounded-md"
@@ -200,6 +200,7 @@ const Menu = () => {
             >
               {" "}
               Edit{" "}
+              {console.log(data)}
             </button>
           </form>
         )}
