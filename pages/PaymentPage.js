@@ -63,7 +63,7 @@ const GetCart = () => {
 		data.cartId = parseInt(data.cart)
 		data.menuId = parseInt(data.menu)
     data.quantity = parseInt(data.quantity)
-    if(data.quantity <= 0){
+    if(data.quantity < 0){
       toast.error("input harus berupa bilangan bulat positif", {
         duration: 4000,
         position: "top-center",
@@ -100,104 +100,113 @@ const GetCart = () => {
 	const cards = list.map((item,idx) => {
 		return(
             <div>
-				<FoodCard key = {idx}
-					name={item.menu.name}
-					price={item.menu.price}
-				/>
-                <p> {item.quantity}</p>
-				<Popup trigger = {<button>Edit</button>}
-                 position = "right center"
+              <div className="w-[300px] max-w-full min-h-[110px] p-4 border-[1px] rounded-md border-[#e8e8e8]">
+                <p className="font-semibold leading-[1.375rem] line-clamp-2">{item.menu.name}</p>
+                <p className="mt-2.5 text-sm font-semibold leading-[1.188rem]">Harga : {item.menu.price}</p>
+                <p className="mt-2.5 text-sm font-semibold leading-[1.188rem]">jumlah : {item.quantity}</p>
+                <p className="mt-2.5 text-sm font-semibold leading-[1.188rem]">Total Harga : {item.quantity * item.menu.price}</p>
+                <Popup trigger = {<button className={`bg-green-500 font-semibold text-white max-w-full w-[400px] h-[50px]`}>Edit</button>}
+                 position = "center"
                  contentStyle={{background:'white' ,margin:'auto',padding: '5 px'}} 
-                 overlayStyle={{background : 'white'}}
+                 overlayStyle={{background : 'white',opacity:'30%'}}
                  closeOnDocumentClick>
                  <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col items-center gap-y-4 w-full px-4"
-          >
-            <p className="font-semibold text-2xl text-center mb-4">
-              Menu : {item.menu.name}
-            </p>
-            <p className="font-semibold text-2xl text-center mb-4">
-              Harga : {item.menu.price}
-            </p>
-            <div className="flex flex-col max-w-full w-[400px]">
-              <label for="quantity" className="mb-1">
-                Quantity <span className="text-red-600">*</span>
-              </label>
-              <input
-                type = 'number'
-                id="quantity"
-                className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
-                placeholder="Quantity"
-                {...register("quantity", { required: true })}
-              />
-              {errors.quantity && (
-                <span className="font-semibold text-red-500 text-sm">
-                  This field is required
-                </span>
-              )}
-            </div>
-            <div className="flex flex-col max-w-full w-[400px]">
-              <input type = 'hidden'
-                id="menu" value = {item.menu.id} 
-                className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
-                placeholder="Menu"
-                {...register("menu", { required: true })}
-              />
-              {errors.quantity && (
-                <span className="font-semibold text-red-500 text-sm">
-                  This field is required
-                </span>
-              )}
-            </div>
-            <button
-              className={`bg-green-500 ${
-                !loading && "hover:bg-green-700"
-              } font-semibold text-white max-w-full w-[400px] h-[50px] rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
-              type="submit"
-              disabled={loading}
-            >
-              {loading ? "Loading..." : "edit"}
-            </button>
-          </form>
-          </Popup>
-                </div>
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="flex flex-col items-center gap-y-4 w-full px-4">
+                    <p className="font-semibold text-2xl text-center mb-4">
+                      Menu : {item.menu.name}
+                    </p>
+                    <p className="font-semibold text-2xl text-center mb-4">
+                      Harga : {item.menu.price}
+                    </p>
+                    <div className="flex flex-col max-w-full w-[400px]">
+                      <label for="quantity" className="mb-1">
+                        Quantity <span className="text-red-600">*</span>
+                      </label>
+                      <input
+                      type = 'number'
+                      id="quantity"
+                      className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
+                      placeholder="Quantity"
+                      {...register("quantity", { required: true })}
+                      />
+                      {errors.quantity && (
+                      <span className="font-semibold text-red-500 text-sm">
+                        This field is required
+                      </span>
+                      )}
+                    </div>
+                    <div className="flex flex-col max-w-full w-[400px]">
+                      <input type = 'hidden'
+                      id="menu" value = {item.menu.id} 
+                      className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
+                      placeholder="Menu"
+                      {...register("menu", { required: true })}
+                      />
+                      {errors.quantity && (
+                      <span className="font-semibold text-red-500 text-sm">
+                        This field is required
+                      </span>
+                      )}
+                    </div>
+                    <button
+                    className={`bg-green-500 ${
+                    !loading && "hover:bg-green-700"
+                    } font-semibold text-white max-w-full w-[400px] h-[50px] rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
+                    type="submit"
+                    disabled={loading}
+                    >
+                      {loading ? "Loading..." : "edit"}
+                    </button>
+                 </form>
+                </Popup>
+              </div>
+				    </div>
 		)
 	})
   if(list.length==0){
     return(
-      <div style={{ margin: '1rem'}}>
-			<h4>Anda belum memesan makanan</h4>
-		</div>
+      <p className="font-semibold text-2xl text-center mb-4">
+              Anda Belum memesan makanan
+      </p>
     ) 
   }
 	return(		
 		<div style={{ margin: '1rem'}}>
-			<p>List Makanan</p>
-      <Popup trigger = {<button>Tunai</button>}
-                 position = "right center"
-                 contentStyle={{background:'white' ,margin:'auto',padding: '5 px'}} 
-                 overlayStyle={{background : 'white'}}
-                 closeOnDocumentClick>
-        <div className="w-[300px] max-w-full min-h-[110px] p-4 border-[1px] rounded-md border-[#e8e8e8]">
-          <p className="font-semibold leading-[1.375rem] line-clamp-2">Apakah anda yakin ingin membayar secara non tunai ?</p>
-          <button onClick={()=>redirect2()}>bayar</button>    
-        </div>
-      </Popup>
-      <Popup trigger = {<button>Tunai</button>}
-                 position = "right center"
-                 contentStyle={{background:'white' ,margin:'auto',padding: '5 px'}} 
-                 overlayStyle={{background : 'white'}}
-                 closeOnDocumentClick>
-        <div className="w-[300px] max-w-full min-h-[110px] p-4 border-[1px] rounded-md border-[#e8e8e8]">
-          <p className="font-semibold leading-[1.375rem] line-clamp-2">Apakah anda yakin ingin membayar secara tunai ?</p>
-          <button onClick={()=>tunai()}>lanjut</button>    
-        </div>
-      </Popup>
+      <div className ="flex flex-row justify-center">
+        <p>List Makanan</p>
+      </div>
 			<div className="flex justify-center flex-wrap gap-6 px-4">
 				{cards}
 			</div>
-			
+      <div className ="flex flex-row justify-center">
+        <p>Total Harga:</p>
+      </div>
+			<div className ="flex flex-row justify-center">
+        <p>{totalHarga}</p>
+      </div>
+			<div className ="flex flex-row justify-center">
+        <Popup trigger = {<button className={`bg-green-500 font-semibold text-white max-w-full w-[400px] h-[50px]`}>Non Tunai</button>}
+                  position = "center"
+                  contentStyle={{background:'white' ,margin:'auto',padding: '5 px'}} 
+                  overlayStyle={{background : 'white',opacity:'30%'}}
+                  closeOnDocumentClick>
+          <div className="w-[300px] max-w-full min-h-[110px] p-4 border-[1px] rounded-md border-[#e8e8e8]">
+            <p className="font-semibold leading-[1.375rem] line-clamp-2">Apakah anda yakin ingin membayar secara non tunai ?</p>
+            <button className={`bg-green-500 font-semibold text-white max-w-full w-[400px] h-[50px]`} onClick={()=>redirect2()}>bayar</button>    
+          </div>
+        </Popup>
+        <Popup trigger = {<button className={`bg-blue-500 font-semibold text-white max-w-full w-[400px] h-[50px]`}>Tunai</button>}
+                  position = "center"
+                  contentStyle={{background:'white' ,margin:'auto',padding: '5 px'}} 
+                  overlayStyle={{background : 'white',opacity:'30%'}}
+                  closeOnDocumentClick>
+          <div className="w-[300px] max-w-full min-h-[110px] p-4 border-[1px] rounded-md border-[#e8e8e8]">
+            <p className="font-semibold leading-[1.375rem] line-clamp-2">Apakah anda yakin ingin membayar secara tunai ?</p>
+            <button className={`bg-green-500 font-semibold text-white max-w-full w-[400px] h-[50px]`} onClick={()=>tunai()}>lanjut</button>    
+          </div>
+        </Popup>
+      </div>
 		</div>
 	)
 }
@@ -206,7 +215,9 @@ const PaymentPage = () => {
     
   return (
     <Layout>
-      <h3>Detail</h3>
+      <div className ="flex flex-row justify-center">
+      <p className = 'font-semibold text-2xl text-center mb-4'>Detail</p>  
+      </div>
       <GetCart/>
     </Layout>
   );
