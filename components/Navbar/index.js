@@ -83,6 +83,16 @@ const Navbar = () => {
               tesqr
               </button>
             </Link>
+            <Link href="/orderstatus">
+              <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+              cek orderan
+              </button>
+            </Link>
+            <Link href="/successpage">
+              <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                successpage
+              </button>
+            </Link>
           </div>
         ) : (
           <div className="flex gap-x-4">
@@ -96,6 +106,7 @@ const Navbar = () => {
                 Register
               </button>
             </Link>
+            
           </div>
         )}
       </div>

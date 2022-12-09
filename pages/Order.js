@@ -53,9 +53,19 @@ const GetCart = () => {
         console.log(data.cart)
         console.log(data.quantity)
         console.log(data.menu)
-        data.cartId = data.cart
-        data.menuId = data.menu
+        data.cartId = parseInt(data.cart)
+        data.menuId = parseInt(data.menu)
+        data.quantity = parseInt(data.quantity)
         var cek
+        
+        if(data.quantity <= 0){
+          toast.error("input harus berupa bilangan bulat positif", {
+            duration: 4000,
+            position: "top-center",
+            })
+            setLoading(false);
+            return
+        }
         await axios.post(`${API_URL}/api/cart-content/get_by_MenuId_CartId/`,data,{
             headers: {
               Authorization: `Token ${token}`,
@@ -87,7 +97,7 @@ const GetCart = () => {
             });
         }
         else{
-            axios.post(`${API_URL}/api/cart-content/add_quantity_by_cartId_menuId`,data,{
+            axios.post(`${API_URL}/api/cart-content/add_quantity_by_cartId_menuId/`,data,{
                 headers: {
                 Authorization: `Token ${token}`,
                 }})
@@ -109,6 +119,8 @@ const GetCart = () => {
         }
       };
 	
+
+      
 	const cards = list.map((item,idx) => {
 		return(
             <div>
@@ -136,6 +148,7 @@ const GetCart = () => {
                 Quantity <span className="text-red-600">*</span>
               </label>
               <input
+                type = 'number'
                 id="quantity"
                 className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
                 placeholder="Quantity"
@@ -154,11 +167,6 @@ const GetCart = () => {
                 placeholder="Menu"
                 {...register("menu", { required: true })}
               />
-              {errors.quantity && (
-                <span className="font-semibold text-red-500 text-sm">
-                  This field is required
-                </span>
-              )}
             </div>
             <button
               className={`bg-green-500 ${

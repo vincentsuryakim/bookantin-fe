@@ -49,6 +49,10 @@ const GetCart = () => {
 			console.log(res2.data.url)
         router.push(res2.data.url)})
     }
+    const tunai = () => {
+      
+          router.push("/tunai")
+    }
 	const onSubmit = async (data) => {
         setLoading(true);
         const token = localStorage.getItem("token");
@@ -56,8 +60,17 @@ const GetCart = () => {
         console.log(data.cart)
         console.log(data.quantity)
         console.log(data.menu)
-		data.cartId = data.cart
-		data.menuId = data.menu
+		data.cartId = parseInt(data.cart)
+		data.menuId = parseInt(data.menu)
+    data.quantity = parseInt(data.quantity)
+    if(data.quantity <= 0){
+      toast.error("input harus berupa bilangan bulat positif", {
+        duration: 4000,
+        position: "top-center",
+        })
+        setLoading(false);
+        return
+    }
 		await axios.post(`${API_URL}/api/cart-content/delete_by_CartId_MenuId/`,data,{
             headers: {
               Authorization: `Token ${token}`,
@@ -112,6 +125,7 @@ const GetCart = () => {
                 Quantity <span className="text-red-600">*</span>
               </label>
               <input
+                type = 'number'
                 id="quantity"
                 className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
                 placeholder="Quantity"
@@ -150,11 +164,36 @@ const GetCart = () => {
                 </div>
 		)
 	})
-
+  if(list.length==0){
+    return(
+      <div style={{ margin: '1rem'}}>
+			<h4>Anda belum memesan makanan</h4>
+		</div>
+    ) 
+  }
 	return(		
 		<div style={{ margin: '1rem'}}>
 			<p>List Makanan</p>
-			<button onClick={()=>redirect2()}>pay</button>
+      <Popup trigger = {<button>Tunai</button>}
+                 position = "right center"
+                 contentStyle={{background:'white' ,margin:'auto',padding: '5 px'}} 
+                 overlayStyle={{background : 'white'}}
+                 closeOnDocumentClick>
+        <div className="w-[300px] max-w-full min-h-[110px] p-4 border-[1px] rounded-md border-[#e8e8e8]">
+          <p className="font-semibold leading-[1.375rem] line-clamp-2">Apakah anda yakin ingin membayar secara non tunai ?</p>
+          <button onClick={()=>redirect2()}>bayar</button>    
+        </div>
+      </Popup>
+      <Popup trigger = {<button>Tunai</button>}
+                 position = "right center"
+                 contentStyle={{background:'white' ,margin:'auto',padding: '5 px'}} 
+                 overlayStyle={{background : 'white'}}
+                 closeOnDocumentClick>
+        <div className="w-[300px] max-w-full min-h-[110px] p-4 border-[1px] rounded-md border-[#e8e8e8]">
+          <p className="font-semibold leading-[1.375rem] line-clamp-2">Apakah anda yakin ingin membayar secara tunai ?</p>
+          <button onClick={()=>tunai()}>lanjut</button>    
+        </div>
+      </Popup>
 			<div className="flex justify-center flex-wrap gap-6 px-4">
 				{cards}
 			</div>
@@ -167,7 +206,7 @@ const PaymentPage = () => {
     
   return (
     <Layout>
-      <p>Detail</p>
+      <h3>Detail</h3>
       <GetCart/>
     </Layout>
   );
