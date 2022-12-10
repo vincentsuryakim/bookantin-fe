@@ -83,17 +83,26 @@ const SellerDashboardAddMenu = () => {
         <label for="type" className="mb-1">
           Tipe <span className="text-red-600">*</span>
         </label>
-        <input
-          id="price"
-          className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
-          placeholder="Isi dengan FOOD/DRINK"
-          {...register("type", { required: true })}
-        />
-        {errors.last_name && (
-          <span className="font-semibold text-red-500 text-sm">
-            This field is required
-          </span>
-        )}
+        <label htmlFor="food">
+          <input
+            {...register("type")}
+            type="radio"
+            name="type"
+            value="FOOD"
+            id="food"
+          />
+          FOOD
+        </label>
+        <label htmlFor="drink">
+          <input
+            {...register("type")}
+            type="radio"
+            name="type"
+            value="DRINK"
+            id="drink"
+          />
+          DRINK
+        </label>
       </div>
       <button
         className={`bg-green-500 ${

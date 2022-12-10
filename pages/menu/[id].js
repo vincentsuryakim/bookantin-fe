@@ -192,17 +192,26 @@ const Menu = () => {
                 <label for="type" className="mb-1">
                   Tipe <span className="text-red-600">*</span>
                 </label>
-                <input
-                  id="type"
-                  className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
-                  placeholder="Isi dengan FOOD/DRINK"
-                  {...register("type", { required: true })}
-                />
-                {errors.last_name && (
-                  <span className="font-semibold text-red-500 text-sm">
-                    This field is required
-                  </span>
-                )}
+                <label htmlFor="food">
+                  <input
+                    {...register("type")}
+                    type="radio"
+                    name="type"
+                    value="FOOD"
+                    id="food"
+                  />
+                  FOOD
+                </label>
+                <label htmlFor="drink">
+                  <input
+                    {...register("type")}
+                    type="radio"
+                    name="type"
+                    value="DRINK"
+                    id="drink"
+                  />
+                  DRINK
+                </label>
               </div>
               <button
                 className="bg-[#e8e8e8] hover:bg-[#e0e0e0] font-semibold text-black max-w-full w-[400px] h-[50px] rounded-md"

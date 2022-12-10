@@ -136,7 +136,7 @@ const SellerDashboard = () => {
       {page === 2 && <SellerDashboardAddMenu />}
       {page === 3 && (
         <>
-          {loading && <p>Loading...</p>}
+          {loading && <p>Loading Seller History...</p>}
           {!loading && history && (
             <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
               <table class="w-full text-sm text-left text-gray-500">
