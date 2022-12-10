@@ -1,5 +1,4 @@
 import Layout from "../components/Layout";
-import FoodCard from "../components/Card/Food";
 import { useState,useEffect } from "react";
 import axios from "axios"
 import { API_URL } from "../constants/api";
@@ -40,7 +39,6 @@ const GetCart = () => {
             },
           })
 		.then(res => {
-			console.log(res.data)
 			setList(res.data)
             })  
 		
@@ -50,9 +48,6 @@ const GetCart = () => {
         setLoading(true);
         const token = localStorage.getItem("token");
         data.cart = localStorage.getItem("cartId")
-        console.log(data.cart)
-        console.log(data.quantity)
-        console.log(data.menu)
         data.cartId = parseInt(data.cart)
         data.menuId = parseInt(data.menu)
         data.quantity = parseInt(data.quantity)

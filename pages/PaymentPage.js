@@ -1,8 +1,6 @@
 import Layout from "../components/Layout";
-import FoodCard from "../components/Card/Food";
 import { useState,useEffect } from "react";
 import axios from "axios"
-import redirect from 'nextjs-redirect'
 import { API_URL } from "../constants/api";
 import Popup from 'reactjs-popup';
 import { useForm } from "react-hook-form";
@@ -10,91 +8,83 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 const GetCart = () => {
     const url = `${API_URL}/api/cart-content/`
-	const router = useRouter();
+	  const router = useRouter();
     const urlPayment = "https://master--courageous-basbousa-3ef9e8.netlify.app/.netlify/functions/token"
-	const [list, setList] = useState([])
+	  const [list, setList] = useState([])
     const [totalHarga,setTotalHarga] = useState(null)
-    const [payment,setPayment] = useState(null)
-	const [loading, setLoading] = useState(false);
+	  const [loading, setLoading] = useState(false);
     const {
         register,
         handleSubmit,
         formState: { errors },
       } = useForm();
 
-	useEffect(() => {
-		var cartId = localStorage.getItem("cartId")
-		const token = localStorage.getItem("token");
-		if(cartId != null){
-			axios.get(url+cartId+"/get_by_CartId",{
-				headers: {
-				  Authorization: `Token ${token}`,
-				}})
-			.then(res => {
-				console.log(res.data)
-				var temp = 0
-				res.data.map((item)=>{
-					temp = temp + item.menu.price * item.quantity
-				})
-				console.log(temp)
-				setTotalHarga(temp)
-				setList(res.data)
-				})  
-				
-		}
-	}, []);
-    
+    useEffect(() => {
+      var cartId = localStorage.getItem("cartId")
+      const token = localStorage.getItem("token");
+      if(cartId != null){
+        axios.get(url+cartId+"/get_by_CartId",{
+          headers: {
+            Authorization: `Token ${token}`,
+          }})
+        .then(res => {
+          var temp = 0
+          res.data.map((item)=>{
+            temp = temp + item.menu.price * item.quantity
+          })
+          setTotalHarga(temp)
+          setList(res.data)
+          })  
+          
+      }
+    }, []);
+      
     const redirect2 = async () => {
-		await axios.get(urlPayment+'?totalHarga='+totalHarga).then((res2) => {
-			console.log(res2.data.url)
+		    await axios.get(urlPayment+'?totalHarga='+totalHarga).then((res2) => {
         router.push(res2.data.url)})
     }
     const tunai = () => {
-      
           router.push("/tunai")
     }
 	const onSubmit = async (data) => {
         setLoading(true);
         const token = localStorage.getItem("token");
         data.cart = localStorage.getItem("cartId")
-        console.log(data.cart)
-        console.log(data.quantity)
-        console.log(data.menu)
-		data.cartId = parseInt(data.cart)
-		data.menuId = parseInt(data.menu)
-    data.quantity = parseInt(data.quantity)
-    if(data.quantity < 0){
-      toast.error("input harus berupa bilangan bulat positif", {
-        duration: 4000,
-        position: "top-center",
-        })
-        setLoading(false);
-        return
-    }
-		await axios.post(`${API_URL}/api/cart-content/delete_by_CartId_MenuId/`,data,{
-            headers: {
-              Authorization: `Token ${token}`,
-            }})
-		if(data.quantity > 0){
-		await axios
-          .post(`${API_URL}/api/cart-content/`,data,{
-            headers: {
-              Authorization: `Token ${token}`,
-            }})
-          .then(() => {
-            toast.success("Add successful", {
-              duration: 4000,
-              position: "top-center",
+        data.cartId = parseInt(data.cart)
+        data.menuId = parseInt(data.menu)
+        data.quantity = parseInt(data.quantity)
+        if(data.quantity < 0){
+          toast.error("input harus berupa bilangan bulat positif", {
+            duration: 4000,
+            position: "top-center",
             })
-          })
-          .catch((err) =>
-            toast.error(err, {
-              duration: 4000,
-              position: "top-center",
-            })
-          )
-		}
-		location.reload()
+            setLoading(false);
+            return
+        }
+        await axios.post(`${API_URL}/api/cart-content/delete_by_CartId_MenuId/`,data,{
+                headers: {
+                  Authorization: `Token ${token}`,
+                }})
+        if(data.quantity > 0){
+        await axios
+              .post(`${API_URL}/api/cart-content/`,data,{
+                headers: {
+                  Authorization: `Token ${token}`,
+                }})
+              .then(() => {
+                toast.success("Add successful", {
+                  duration: 4000,
+                  position: "top-center",
+                })
+              })
+              .catch((err) =>
+                toast.error(err, {
+                  duration: 4000,
+                  position: "top-center",
+                })
+              )
+        }
+		    location.reload()
       };
 
 	const cards = list.map((item,idx) => {

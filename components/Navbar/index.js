@@ -70,27 +70,17 @@ const Navbar = () => {
             </button>
             <Link href="/PaymentPage">
               <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-              payment
+              Payment
               </button>
             </Link>
             <Link href="/Order">
               <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-              order
-              </button>
-            </Link>
-            <Link href="/tunai">
-              <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-              tesqr
+              Order
               </button>
             </Link>
             <Link href="/orderstatus">
               <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-              cek orderan
-              </button>
-            </Link>
-            <Link href="/successpage">
-              <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                successpage
+              Order Status
               </button>
             </Link>
           </div>
