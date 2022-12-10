@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { API_URL } from "../../constants/api";
 
+import SellerDashboardAddMenu from "./SellerDashboardAddMenu";
+import SellerDashboardGetMenu from "./SellerDashboardGetMenu";
+
 const SellerDashboard = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -103,10 +106,25 @@ const SellerDashboard = () => {
               page === 2
                 ? "bg-gray-300 text-gray-900 active"
                 : "bg-gray-100 text-gray-700 hover:text-gray-700 hover:bg-gray-200"
-            } rounded-r-lg focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer`}
+            } focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer`}
             onClick={() => {
               setLoading(true);
               setPage(2);
+            }}
+          >
+            Add Menu
+          </div>
+        </li>
+        <li className="w-full">
+          <div
+            className={`inline-block p-4 w-full ${
+              page === 3
+                ? "bg-gray-300 text-gray-900 active"
+                : "bg-gray-100 text-gray-700 hover:text-gray-700 hover:bg-gray-200"
+            } rounded-r-lg focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer`}
+            onClick={() => {
+              setLoading(true);
+              setPage(3);
             }}
           >
             Your History
@@ -114,8 +132,9 @@ const SellerDashboard = () => {
         </li>
       </ul>
 
-      {page === 1 && <p>Your Menu Page</p>}
-      {page === 2 && (
+      {page === 1 && <SellerDashboardGetMenu />}
+      {page === 2 && <SellerDashboardAddMenu />}
+      {page === 3 && (
         <>
           {loading && <p>Loading...</p>}
           {!loading && history && (
