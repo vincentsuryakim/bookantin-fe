@@ -1,4 +1,4 @@
-import FoodCard from "../components/Card/Food";
+import FoodCard from "../components/Card/Food/FoodCard";
 import Layout from "../components/Layout";
 
 import { dummyData } from "../constants/foodDummyData";

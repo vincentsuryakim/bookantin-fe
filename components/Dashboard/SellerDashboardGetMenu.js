@@ -1,4 +1,4 @@
-import FoodCard from "../../components/Card/Food";
+import FoodCard from "../Card/Food/FoodCard";
 import { useAuthContext } from "../../contexts/AuthContext";
 import axios from "axios";
 import { useState, useEffect } from "react";
