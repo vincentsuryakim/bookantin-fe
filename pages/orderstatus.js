@@ -94,7 +94,7 @@ const GetCart = () => {
           type="submit"
           disabled={loading}
         >
-          {loading ? "Loading..." : "Add"}
+          {loading ? "Loading..." : "Cari"}
         </button>
       </form>
       <div className="flex justify-center flex-wrap gap-6 px-4">{cards}</div>
