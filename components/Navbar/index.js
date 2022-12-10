@@ -28,7 +28,7 @@ const Navbar = () => {
       )
       .then(() => {
         localStorage.removeItem("token");
-
+        localStorage.removeItem('cartId');
         toast.success("Logout successful", {
           duration: 4000,
           position: "top-center",
@@ -85,11 +85,6 @@ const Navbar = () => {
             <Link href="/PaymentPage">
               <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
               Payment
-              </button>
-            </Link>
-            <Link href="/Order">
-              <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-              Order
               </button>
             </Link>
             <Link href="/orderstatus">

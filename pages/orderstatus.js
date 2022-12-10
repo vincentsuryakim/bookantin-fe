@@ -38,7 +38,7 @@ const GetCart = () => {
           setLoading(false);
         });
     }
-  }, [cartId]);
+  }, [cartId, url]);
 
   const onSubmit = async (data) => {
     setCartId(data.cart);
