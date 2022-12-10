@@ -6,6 +6,7 @@ import Popup from "reactjs-popup";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
+
 const GetCart = () => {
   const url = `${API_URL}/api/cart-content/`;
   const router = useRouter();
