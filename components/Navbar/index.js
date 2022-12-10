@@ -56,7 +56,7 @@ const Navbar = () => {
         {authLoading ? (
           <p>Loading...</p>
         ) : !!Object.keys(user ?? {}).length ? (
-          <div className="flex gap-x-4 items-center block py-2 pl-3 pr-4">
+          <div className="flex gap-x-6 items-center py-2 pl-3 pr-4">
             <Link href="/profile">
               <p className="md:hover:text-blue-700 md:p-0">
                 Hello, {user?.first_name}!

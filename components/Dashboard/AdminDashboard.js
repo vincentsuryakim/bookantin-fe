@@ -54,6 +54,7 @@ const AdminDashboard = () => {
           {data &&
             data.map((seller) => (
               <AdminDashboardTable
+                key={seller.id}
                 seller={seller}
                 setTriggerReload={setTriggerReload}
               />

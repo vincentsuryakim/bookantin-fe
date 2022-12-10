@@ -79,6 +79,7 @@ const Profile = () => {
             </label>
             <input
               id="first_name"
+              defaultValue={user?.first_name}
               className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
               placeholder="First Name"
               {...register("first_name", { required: true })}
@@ -95,6 +96,7 @@ const Profile = () => {
             </label>
             <input
               id="last_name"
+              defaultValue={user?.last_name}
               className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
               placeholder="Last Name"
               {...register("last_name", { required: true })}
@@ -111,6 +113,7 @@ const Profile = () => {
             </label>
             <input
               id="username"
+              defaultValue={user?.username}
               className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
               placeholder="Username"
               {...register("username", { required: true })}
@@ -127,6 +130,7 @@ const Profile = () => {
             </label>
             <input
               id="email"
+              defaultValue={user?.email}
               type="email"
               className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
               placeholder="Email"
