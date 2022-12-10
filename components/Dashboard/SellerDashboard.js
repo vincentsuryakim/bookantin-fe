@@ -138,23 +138,23 @@ const SellerDashboard = () => {
         <>
           {loading && <p>Loading Seller History...</p>}
           {!loading && history && (
-            <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-              <table class="w-full text-sm text-left text-gray-500">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+            <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
+              <table className="w-full text-sm text-left text-gray-500">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                   <tr>
-                    <th scope="col" class="py-3 px-6">
+                    <th scope="col" className="py-3 px-6">
                       Name
                     </th>
-                    <th scope="col" class="py-3 px-6">
+                    <th scope="col" className="py-3 px-6">
                       Price
                     </th>
-                    <th scope="col" class="py-3 px-6">
+                    <th scope="col" className="py-3 px-6">
                       Quantity
                     </th>
-                    <th scope="col" class="py-3 px-6">
+                    <th scope="col" className="py-3 px-6">
                       Type
                     </th>
-                    <th scope="col" class="py-3 px-6">
+                    <th scope="col" className="py-3 px-6">
                       Checkout Time
                     </th>
                   </tr>
@@ -162,19 +162,19 @@ const SellerDashboard = () => {
                 {history.map((item) => {
                   return (
                     <tbody key={item.id}>
-                      <tr class="bg-white border-b hover:bg-gray-50">
+                      <tr className="bg-white border-b hover:bg-gray-50">
                         <th
                           scope="row"
-                          class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap"
+                          className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap"
                         >
                           {item.menu.name}
                         </th>
-                        <td class="py-4 px-6">{item.menu.price}</td>
-                        <td class="py-4 px-6">{item.quantity}</td>
-                        <td class="py-4 px-6">
+                        <td className="py-4 px-6">{item.menu.price}</td>
+                        <td className="py-4 px-6">{item.quantity}</td>
+                        <td className="py-4 px-6">
                           {capitalizeFirstLetter(item.menu.type)}
                         </td>
-                        <td class="py-4 px-6">
+                        <td className="py-4 px-6">
                           {formatDate(item.cart.checkOutTime)}
                         </td>
                       </tr>

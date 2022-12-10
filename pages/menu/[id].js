@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 
 const Menu = () => {
   const { user, authLoading } = useAuthContext();
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [type, setType] = useState("FOOD");
   const [data, setData] = useState([]);
@@ -29,6 +30,8 @@ const Menu = () => {
   }, [id]);
 
   const getMenu = () => {
+    setLoading(true);
+
     const token = localStorage.getItem("token");
     axios
       .get(`${API_URL}/api/menu/${id}`, {
@@ -44,7 +47,8 @@ const Menu = () => {
           duration: 4000,
           position: "top-center",
         });
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   const editMenu = (data) => {
@@ -107,9 +111,13 @@ const Menu = () => {
     setPage(2);
   };
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  };
+
   return (
     <Layout>
-      {authLoading ? (
+      {authLoading || loading ? (
         <p>Loading...</p>
       ) : !!Object.keys(data).length &&
         !!Object.keys(user).length &&
@@ -126,7 +134,7 @@ const Menu = () => {
               </p>
               <p className="font-semibold text-1xl text-center">
                 {" "}
-                Tipe Menu: {data.type}
+                Tipe Menu: {capitalizeFirstLetter(data.type)}
               </p>
               <p className="font-semibold text-2xl text-center">
                 Dijual Oleh: {data.seller.user.first_name}{" "}
@@ -164,6 +172,7 @@ const Menu = () => {
                   id="name"
                   className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
                   placeholder="Tuliskan Nama Makanan"
+                  defaultValue={data.name}
                   {...register("name", { required: true })}
                 />
                 {errors.first_name && (
@@ -181,6 +190,7 @@ const Menu = () => {
                   className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
                   placeholder="Harga Makanan"
                   {...register("price", { required: true })}
+                  defaultValue={data.price}
                 />
                 {errors.last_name && (
                   <span className="font-semibold text-red-500 text-sm">
@@ -192,26 +202,30 @@ const Menu = () => {
                 <label for="type" className="mb-1">
                   Tipe <span className="text-red-600">*</span>
                 </label>
-                <label htmlFor="food">
-                  <input
-                    {...register("type")}
-                    type="radio"
-                    name="type"
-                    value="FOOD"
-                    id="food"
-                  />
-                  FOOD
-                </label>
-                <label htmlFor="drink">
-                  <input
-                    {...register("type")}
-                    type="radio"
-                    name="type"
-                    value="DRINK"
-                    id="drink"
-                  />
-                  DRINK
-                </label>
+                <div className="flex gap-x-4">
+                  <div className="flex items-center gap-x-1">
+                    <input
+                      {...register("type")}
+                      type="radio"
+                      name="type"
+                      value="FOOD"
+                      id="food"
+                      defaultChecked={data.type === "FOOD"}
+                    />
+                    <label htmlFor="food">Food</label>
+                  </div>
+                  <div className="flex items-center gap-x-1">
+                    <input
+                      {...register("type")}
+                      type="radio"
+                      name="type"
+                      value="DRINK"
+                      id="drink"
+                      defaultChecked={data.type === "DRINK"}
+                    />
+                    <label htmlFor="drink">Drink</label>
+                  </div>
+                </div>
               </div>
               <button
                 className="bg-[#e8e8e8] hover:bg-[#e0e0e0] font-semibold text-black max-w-full w-[400px] h-[50px] rounded-md"
