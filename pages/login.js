@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -11,8 +11,18 @@ import { useAuthContext } from "../contexts/AuthContext";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
 
   const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      window.location.replace("/");
+    } else {
+      setInitialLoading(false);
+    }
+  }, []);
 
   const { setAuthLoading } = useAuthContext();
 
@@ -62,55 +72,59 @@ const Login = () => {
 
   return (
     <Layout>
-      <div className="flex justify-center w-full">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col items-center gap-y-4"
-        >
-          <p className="font-semibold text-2xl text-center">
-            Login to BooKantin
-          </p>
-          <div className="flex flex-col max-w-full w-[400px]">
-            <label htmlFor="username" className="mb-1">
-              Username <span className="text-red-600">*</span>
-            </label>
-            <input
-              id="username"
-              className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
-              type="text"
-              placeholder="Username"
-              {...register("username", { required: true })}
-            />
-            {errors.username && (
-              <p className="text-red-500">Username is required</p>
-            )}
-          </div>
-          <div className="flex flex-col max-w-full w-[400px]">
-            <label htmlFor="password" className="mb-1">
-              Password <span className="text-red-600">*</span>
-            </label>
-            <input
-              id="password"
-              className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
-              type="password"
-              placeholder="Password"
-              {...register("password", { required: true })}
-            />
-            {errors.password && (
-              <p className="text-red-500">Password is required</p>
-            )}
-          </div>
-          <button
-            className={`bg-green-500 ${
-              !loading && "hover:bg-green-700"
-            } font-semibold text-white max-w-full w-[400px] h-[50px] rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
-            type="submit"
-            disabled={loading}
+      {initialLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className="flex justify-center w-full">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col items-center gap-y-4"
           >
-            {loading ? "Loading..." : "Login"}
-          </button>
-        </form>
-      </div>
+            <p className="font-semibold text-2xl text-center">
+              Login to BooKantin
+            </p>
+            <div className="flex flex-col max-w-full w-[400px]">
+              <label htmlFor="username" className="mb-1">
+                Username <span className="text-red-600">*</span>
+              </label>
+              <input
+                id="username"
+                className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
+                type="text"
+                placeholder="Username"
+                {...register("username", { required: true })}
+              />
+              {errors.username && (
+                <p className="text-red-500">Username is required</p>
+              )}
+            </div>
+            <div className="flex flex-col max-w-full w-[400px]">
+              <label htmlFor="password" className="mb-1">
+                Password <span className="text-red-600">*</span>
+              </label>
+              <input
+                id="password"
+                className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
+                type="password"
+                placeholder="Password"
+                {...register("password", { required: true })}
+              />
+              {errors.password && (
+                <p className="text-red-500">Password is required</p>
+              )}
+            </div>
+            <button
+              className={`bg-green-500 ${
+                !loading && "hover:bg-green-700"
+              } font-semibold text-white max-w-full w-[400px] h-[50px] rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? "Loading..." : "Login"}
+            </button>
+          </form>
+        </div>
+      )}
     </Layout>
   );
 };
