@@ -53,7 +53,6 @@ const Menu = () => {
 
   const addMenu = (data) => {
     setLoading(true);
-
     const token = localStorage.getItem("token");
     axios
       .post(`${API_URL}/api/menu/`, data, {

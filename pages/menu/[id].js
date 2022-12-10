@@ -4,10 +4,8 @@ import axios from "axios";
 import { API_URL } from "../../constants/api";
 import { useRouter } from "next/router";
 import { set, useForm } from "react-hook-form";
-import { dummyData } from "../../constants/foodDummyData";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../contexts/AuthContext";
-import { Router, Route, useParams, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const Menu = () => {
@@ -16,6 +14,7 @@ const Menu = () => {
   const [type, setType] = useState("FOOD");
   const [data, setData] = useState([]);
   const router = useRouter();
+  const { id } = router.query;
 
   const {
     register,
@@ -24,13 +23,12 @@ const Menu = () => {
   } = useForm();
 
   useEffect(() => {
-    if (!router.isReady) return;
-    getMenu();
-  }, [router.isReady]);
+    if (id) {
+      getMenu();
+    }
+  }, [id]);
 
   const getMenu = () => {
-    //get id from url param
-    const id = window.location.pathname.split("/")[2];
     const token = localStorage.getItem("token");
     axios
       .get(`${API_URL}/api/menu/${id}`, {
@@ -50,7 +48,6 @@ const Menu = () => {
   };
 
   const editMenu = (data) => {
-    const id = window.location.pathname.split("/")[2];
     const token = localStorage.getItem("token");
     axios
       .put(`${API_URL}/api/menu/${id}/`, data, {
@@ -74,7 +71,6 @@ const Menu = () => {
   };
 
   const deleteMenu = () => {
-    const id = window.location.pathname.split("/")[2];
     const token = localStorage.getItem("token");
     axios
       .delete(`${API_URL}/api/menu/${id}`, {
@@ -110,7 +106,9 @@ const Menu = () => {
     <Layout>
       {authLoading ? (
         <p>Loading...</p>
-      ) : !!Object.keys(data).length ? (
+      ) : !!Object.keys(data).length &&
+        !!Object.keys(user).length &&
+        !!Object.keys(router.query).length ? (
         <div className="flex justify-center w-full">
           {page === 1 && (
             <div className="flex flex-col items-center gap-y-4">
