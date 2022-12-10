@@ -34,7 +34,7 @@ const Login = () => {
 
   const onSubmit = (data) => {
     setLoading(true);
-
+    console.log(data)
     axios
       .post(`${API_URL}/api/login`, data)
       .then((res) => {
