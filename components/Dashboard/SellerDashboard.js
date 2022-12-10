@@ -1,9 +1,13 @@
 import axios from "axios";
+import FoodCard from "../../components/Card/Food";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { API_URL } from "../../constants/api";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 const SellerDashboard = () => {
+  const { user, authLoading } = useAuthContext();
+  const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [history, setHistory] = useState(null);
@@ -11,8 +15,30 @@ const SellerDashboard = () => {
   useEffect(() => {
     if (page === 2) {
       getSellerHistory();
+    } else {
+      getMenu();
     }
   }, [page]);
+
+  const getMenu = () => {
+    const token = localStorage.getItem("token");
+
+    axios
+      .get(`${API_URL}/api/menu`, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err) => {
+        toast.error(String(err), {
+          duration: 4000,
+          position: "top-center",
+        });
+      });
+  };
 
   const getSellerHistory = () => {
     setLoading(true);
@@ -114,7 +140,25 @@ const SellerDashboard = () => {
         </li>
       </ul>
 
-      {page === 1 && <p>Your Menu Page</p>}
+      {page === 1 && (
+        <div className="flex flex-col items-center gap-y-4">
+          <p className="font-semibold text-2xl text-center pb-5">
+            Melihat Menu Milik {user?.first_name} {user?.last_name}
+          </p>
+          <div className="flex justify-center flex-wrap gap-6 px-4">
+            {data.map((data, index) => (
+              <FoodCard key={index} {...data} />
+            ))}
+          </div>
+          <button
+            className="bg-[#e8e8e8] hover:bg-[#e0e0e0] font-semibold text-black max-w-full w-[400px] h-[50px] rounded-md"
+            onClick={() => gantiPage(2)}
+          >
+            {" "}
+            Buat Menu Baru{" "}
+          </button>
+        </div>
+      )}
       {page === 2 && (
         <>
           {loading && <p>Loading...</p>}
