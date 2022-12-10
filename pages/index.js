@@ -18,11 +18,7 @@ const Home = () => {
         const token = localStorage.getItem("token");
 
         axios
-            .get(`${API_URL}/api/menu`, {
-                headers: {
-                    Authorization: `Token ${token}`,
-                },
-            })
+            .get(`${API_URL}/api/menu`)
             .then((res) => {
                 setMenus(res.data);
             })
