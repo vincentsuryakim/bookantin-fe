@@ -1,5 +1,5 @@
 import React from 'react';
-import FoodCard from "./index";
+import FoodCard from "./FoodCard";
 
 function MenuList({menus}) {
     return (
