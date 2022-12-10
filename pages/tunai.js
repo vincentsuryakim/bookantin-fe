@@ -31,19 +31,21 @@ function Tunai() {
       <div className="flex flex-row justify-center">
         <p className="font-semibold text-2xl text-center mb-4">Tunjukan QR ini ke kasir!</p>
       </div>
-      <Canvas
-        text={"http://localhost:3000" + "/cart/" + id}
-        options={{
-          level: "M",
-          margin: 3,
-          scale: 4,
-          width: 200,
-          color: {
-            dark: "#010599FF",
-            light: "#FFBF60FF",
-          },
-        }}
-      />
+      <div className="flex flex-row justify-center">
+        <Canvas
+          text={"https://bookantin-fe.vercel.app/" + "/cart/" + id}
+          options={{
+            level: "M",
+            margin: 3,
+            scale: 4,
+            width: 200,
+            color: {
+              dark: "#010599FF",
+              light: "#FFBF60FF",
+            },
+          }}
+        />
+      </div>
     </Layout>
 
   );
