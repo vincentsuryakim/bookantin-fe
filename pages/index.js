@@ -1,6 +1,5 @@
 import FoodCard from "../components/Card/Food";
 import Layout from "../components/Layout";
-("axios");
 
 import { dummyData } from "../constants/foodDummyData";
 

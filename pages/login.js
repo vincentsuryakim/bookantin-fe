@@ -41,7 +41,7 @@ const Login = () => {
 
           setAuthLoading(true);
 
-          router.push("/menu");
+          router.push("/");
         } else {
           toast.error("Login failed. Please try again.", {
             duration: 4000,
