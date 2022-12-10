@@ -48,7 +48,7 @@ const SellerDashboardAddMenu = () => {
         Tambahkan Makanan Baru
       </p>
       <div className="flex flex-col max-w-full w-[400px]">
-        <label for="name" className="mb-1">
+        <label htmlFor="name" className="mb-1">
           Nama Makanan <span className="text-red-600">*</span>
         </label>
         <input
@@ -64,7 +64,7 @@ const SellerDashboardAddMenu = () => {
         )}
       </div>
       <div className="flex flex-col max-w-full w-[400px]">
-        <label for="price" className="mb-1">
+        <label htmlFor="price" className="mb-1">
           Harga Makanan <span className="text-red-600">*</span>
         </label>
         <input
@@ -80,25 +80,38 @@ const SellerDashboardAddMenu = () => {
         )}
       </div>
       <div className="flex flex-col max-w-full w-[400px]">
-        <label for="type" className="mb-1">
+        <label htmlFor="type" className="mb-1">
           Tipe <span className="text-red-600">*</span>
         </label>
-        <input
-          id="price"
-          className="bg-[#efefef] hover:bg-[#eaeaea] font-semibold text-black w-full h-[50px] px-4 rounded-md"
-          placeholder="Isi dengan FOOD/DRINK"
-          {...register("type", { required: true })}
-        />
-        {errors.last_name && (
-          <span className="font-semibold text-red-500 text-sm">
-            This field is required
-          </span>
-        )}
+        <div className="flex gap-x-4">
+          <div className="flex items-center gap-x-1">
+            <input
+              {...register("type")}
+              type="radio"
+              name="type"
+              value="FOOD"
+              id="food"
+            />
+            <label htmlFor="food">Food</label>
+          </div>
+          <div className="flex items-center gap-x-1">
+            <input
+              {...register("type")}
+              type="radio"
+              name="type"
+              value="DRINK"
+              id="drink"
+            />
+            <label htmlFor="drink">Drink</label>
+          </div>
+        </div>
       </div>
       <button
         className={`bg-green-500 ${
-          !loading && "hover:bg-green-700"
-        } font-semibold text-white max-w-full w-[400px] h-[50px] rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
+          loading
+            ? "opacity-50 cursor-not-allowed"
+            : "hover:bg-green-700 cursor-pointer"
+        } font-semibold text-white max-w-full w-[400px] h-[50px] rounded-md`}
         type="submit"
       >
         {loading ? "Loading..." : "Add Menu"}
