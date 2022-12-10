@@ -1,39 +1,35 @@
-import { useRouter } from "next/router";
-
 import Layout from "../components/Layout";
 import AdminDashboard from "../components/Dashboard/AdminDashboard";
 import SellerDashboard from "../components/Dashboard/SellerDashboard";
 
 import { useAuthContext } from "../contexts/AuthContext";
-import { useEffect } from "react";
 
 const Dashboard = () => {
-  const { user, setAuthLoading } = useAuthContext();
+  const { user, authLoading } = useAuthContext();
 
-  const router = useRouter();
-
-  useEffect(() => {
-    if (user) {
-      if (!["ADMIN", "SELLER"].includes(user?.type)) {
-        router.push("/");
-      }
-    }
-  }, [user]);
-
-  if (user?.type === "ADMIN") {
+  if (authLoading) {
     return (
       <Layout>
-        <AdminDashboard />
-      </Layout>
-    );
-  } else if (user?.type === "SELLER") {
-    return (
-      <Layout>
-        <SellerDashboard />
+        <p>Loading...</p>
       </Layout>
     );
   } else {
-    return null;
+    if (user?.type === "ADMIN") {
+      return (
+        <Layout>
+          <AdminDashboard />
+        </Layout>
+      );
+    } else if (user?.type === "SELLER") {
+      return (
+        <Layout>
+          <SellerDashboard />
+        </Layout>
+      );
+    } else {
+      window.location.replace("/");
+      return null;
+    }
   }
 };
 
