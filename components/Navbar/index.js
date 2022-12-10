@@ -82,6 +82,21 @@ const Navbar = () => {
             >
               {logoutLoading ? "Loading...." : "Logout"}
             </button>
+            <Link href="/PaymentPage">
+              <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+              Payment
+              </button>
+            </Link>
+            <Link href="/Order">
+              <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+              Order
+              </button>
+            </Link>
+            <Link href="/orderstatus">
+              <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+              Order Status
+              </button>
+            </Link>
           </div>
         ) : (
           <div className="flex gap-x-4">
@@ -95,6 +110,7 @@ const Navbar = () => {
                 Register
               </button>
             </Link>
+            
           </div>
         )}
       </div>
