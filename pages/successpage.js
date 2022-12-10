@@ -1,14 +1,7 @@
 import Layout from "../components/Layout";
-import FoodCard from "../components/Card/Food/FoodCard";
-import { useState, useEffect } from "react";
 import { useEffect } from "react";
 import axios from "axios";
-import redirect from "nextjs-redirect";
 import { API_URL } from "../constants/api";
-import Popup from "reactjs-popup";
-import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-import { useRouter } from "next/router";
 
 const SuccessPage = () => {
   useEffect(() => {
