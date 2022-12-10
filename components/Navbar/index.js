@@ -28,7 +28,7 @@ const Navbar = () => {
       )
       .then(() => {
         localStorage.removeItem("token");
-
+        localStorage.removeItem('cartId');
         toast.success("Logout successful", {
           duration: 4000,
           position: "top-center",

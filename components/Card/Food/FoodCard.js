@@ -1,24 +1,52 @@
 import Popup from "reactjs-popup";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
 import axios from "axios";
 import {API_URL} from "../../../constants/api";
 
 const FoodCard = ({
-  name = "Loading...",
-  price = "Loading...",
-  id = "#",
-  path = "menu/",
-  seller = "Loading...",
+    name = "Loading...",
+    price = "Loading...",
+    id = "#",
+    path = "menu/",
+    seller = "Loading...",
 }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
-  const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const url = `${API_URL}/api/menu/`;
+    const urlCart = `${API_URL}/api/cart/add`;
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        var cartId = localStorage.getItem("cartId");
+        if (cartId == null) {
+            axios
+                .get(urlCart, {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                })
+                .then((res) => {
+                    localStorage.setItem("cartId", res.data.id);
+                    console.log(cartId);
+                });
+        }
+        axios
+            .get(url, {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            })
+            .then((res) => {
+                setList(res.data);
+            });
+    }, [url, urlCart]);
 
   const onSubmit = async (data) => {
     setLoading(true);
