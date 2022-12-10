@@ -3,6 +3,7 @@ import { useQRCode } from "next-qrcode";
 import {API_URL} from "../constants/api";
 import {useRouter} from "next/router";
 import axios from "axios";
+import Layout from "../components/Layout";
 
 function Tunai() {
   const { Canvas } = useQRCode();
@@ -26,19 +27,25 @@ function Tunai() {
   }, [id, url]);
 
   return (
-    <Canvas
-      text={"http://localhost:3000" + "/cart/" + id}
-      options={{
-        level: "M",
-        margin: 3,
-        scale: 4,
-        width: 200,
-        color: {
-          dark: "#010599FF",
-          light: "#FFBF60FF",
-        },
-      }}
-    />
+    <Layout>
+      <div className="flex flex-row justify-center">
+        <p className="font-semibold text-2xl text-center mb-4">Tunjukan QR ini ke kasir!</p>
+      </div>
+      <Canvas
+        text={"http://localhost:3000" + "/cart/" + id}
+        options={{
+          level: "M",
+          margin: 3,
+          scale: 4,
+          width: 200,
+          color: {
+            dark: "#010599FF",
+            light: "#FFBF60FF",
+          },
+        }}
+      />
+    </Layout>
+
   );
 }
 export default Tunai;
