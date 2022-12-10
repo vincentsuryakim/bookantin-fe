@@ -174,6 +174,9 @@ const GetCart = () => {
 	return(		
 		<div style={{ margin: '1rem'}}>
       <div className ="flex flex-row justify-center">
+        <p>id Pesanan : {localStorage.getItem('cartId') || ""}</p>
+      </div>
+      <div className ="flex flex-row justify-center">
         <p>List Makanan</p>
       </div>
 			<div className="flex justify-center flex-wrap gap-6 px-4">
