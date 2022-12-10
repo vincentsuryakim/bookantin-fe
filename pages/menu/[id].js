@@ -95,7 +95,12 @@ const Menu = () => {
 
   const deleteClick = () => {
     deleteMenu();
-    router.push("/menu");
+    router.push("/dashboard");
+  };
+
+  const editClick = (data) => {
+    editMenu(data);
+    router.push("/dashboard");
   };
 
   const gantiPage = () => {
@@ -145,7 +150,7 @@ const Menu = () => {
           )}
           {page === 2 && (
             <form
-              onSubmit={handleSubmit(editMenu)}
+              onSubmit={handleSubmit(editClick)}
               className="flex flex-col items-center gap-y-4 w-full px-4"
             >
               <p className="font-semibold text-2xl text-center mb-4">
@@ -201,7 +206,7 @@ const Menu = () => {
               </div>
               <button
                 className="bg-[#e8e8e8] hover:bg-[#e0e0e0] font-semibold text-black max-w-full w-[400px] h-[50px] rounded-md"
-                onClick={() => editMenu()}
+                onClick={() => editClick()}
               >
                 {" "}
                 Edit {console.log(data)}
