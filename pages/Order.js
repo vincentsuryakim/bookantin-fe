@@ -42,7 +42,7 @@ const GetCart = () => {
       .then((res) => {
         setList(res.data);
       });
-  }, []);
+  }, [url, urlCart]);
 
   const onSubmit = async (data) => {
     setLoading(true);

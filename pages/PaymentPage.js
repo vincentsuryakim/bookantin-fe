@@ -39,7 +39,7 @@ const GetCart = () => {
           setList(res.data);
         });
     }
-  }, []);
+  }, [url]);
 
   const redirect2 = async () => {
     await axios.get(urlPayment + "?totalHarga=" + totalHarga).then((res2) => {
